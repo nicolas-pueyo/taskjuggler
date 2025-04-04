@@ -159,7 +159,7 @@ task WMGame "Web & Mobile Game" {
     task tMobileImpl "Mobile Front End Implementation" {
       effort 10d
       allocate dev2,dev3
-      depends tMobileSpecDesign
+      depends WMGame.tMobileFront.tMobileSpecDesign
     }
   }
 
