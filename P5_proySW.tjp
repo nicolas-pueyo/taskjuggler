@@ -69,6 +69,16 @@ resource dev3 "Peter Green" {
   email "kkk@unizar.es"
 }
 
+shifts 4h "4h shift" {
+  workinghours mon - fri 08:00-12:00
+}
+
+resource Nicolas "Nicolas Pueyo" {
+  email "870959@unizar.es"
+  rate 48
+
+}
+
 # Now we specify the work packages. The whole project is described as
 # a task that contains subtasks. These subtasks are then broken down
 # into smaller tasks and so on. The innermost tasks describe the real
@@ -117,6 +127,38 @@ task WMGame "Web & Mobile Game" {
       effort 20d
       allocate dev1, dev2
       depends WMGame.tback.tlogic
+    }
+  }
+
+  task tCloudBack "Task Cloud Deployment Backend" {
+    purge chargeset
+    chargeset back
+    responsible dev1
+    depends WMGame.tback
+    task tBackCloudResearch "Evaluate and decide Cloud" {
+      effort 2d
+      allocate dev1, dev2
+    }
+    task tCloudDeploy "Deploy backend on Cloud" {
+      effort 3d
+      allocate Nicolas
+      depends WMGame.tCloudBack.tBackCloudResearch
+    }
+  }
+
+  task tMobileFront "Mobile frontend development" {
+    purge chargeset
+    chargeset mFront
+    responsible dev1
+    depends WMGame.tgdesign
+    task tMobileSpecDesign "Specific Mobile Front End Design" {
+      effort 2d
+      allocate dev2
+    }
+    task tMobileImpl "Mobile Front End Implementation" {
+      effort 10d
+      allocate dev2,dev3
+      depends tMobileSpecDesign
     }
   }
 
